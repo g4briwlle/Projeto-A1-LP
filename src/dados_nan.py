@@ -2,13 +2,15 @@ import pandas as pd
 import cleaning
 import json
 
+# Ao relacionar os dados de hapiscore e democracy temos apenas dados NaN em hapiscore, ou seja
+# a coleta de dados NaN só é feita em hapiscore
 
 # Lista anos de 2006 a 2022 (lembrando que a primeria coluna é o nome do país)
-anos_hapiscore_democracy = list(cleaning.df_hapiscore.columns[1:]) 
+anos_hapiscore_democracy = list(cleaning.df_hapiscore_limpo.columns[1:]) 
 
 nan_info_hapiscore_democracy = {}
 
-for index, row in cleaning.df_hapiscore.iterrows():
+for index, row in cleaning.df_hapiscore_limpo.iterrows():
     pais = row[0]  # O nome do país está na primeira coluna
     anos_com_nan = []
     contagem_dados_nan = 0
@@ -20,7 +22,7 @@ for index, row in cleaning.df_hapiscore.iterrows():
             anos_com_nan.append(ano)
             contagem_dados_nan += 1
         
-    # Se a lista de anos_com_nan tiver conteúdo, ou seja, o país tem dados Nan,
+    # Se a lista de anos_com_nan tiver conteúdo, ou seja, o país tem dados NaN,
     # adiciona as informações ao dicionário
     if anos_com_nan:
         nan_info_hapiscore_democracy[pais] = {}
