@@ -5,6 +5,9 @@ import pandas as pd
 
 df_hapiscore_original = pd.read_csv("Projeto-A1-LP\data\hapiscore_whr_original.csv")
 df_democracy_original = pd.read_excel("Projeto-A1-LP\data\democracy_rate_EIU_original.xlsx")
+df_aid_received_original = pd.read_csv("Projeto-A1-LP\data\aid_received_total_us_inflation_adjusted.csv")
+df_gpd_pcap_original = pd.read_csv("Projeto-A1-LP\data\gdp_pcap.csv")
+df_military_original = pd.read_csv("Projeto-A1-LP\data\military_expenditure_percent_of_gdp.csv")
 # df_democracy.to_csv("democracy_rate_EIU_2.csv", index = False)
 
 df_democracy = df_democracy_original.copy()
