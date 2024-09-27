@@ -11,7 +11,7 @@ Utilizando bases de dados com índices sociais, econômicos e políticos de paí
 
 # Proposta 1:
 - Existe uma correlação entre o índice de democracia e o índice de felicidade populacional de um país ao longo do tempo?
-- Para responder essa questão, 
+  Para responder essa questão, 
 
 # Proposta 2:
 
