@@ -1,19 +1,19 @@
-""" Módulo de limpeza dos datasets
+""" 
+Módulo de limpeza dos datasets
 """
 
 import pandas as pd
 
-df_hapiscore_original = pd.read_csv("Projeto-A1-LP\data\hapiscore_whr_original.csv")
-df_democracy_original = pd.read_excel("Projeto-A1-LP\data\democracy_rate_EIU_original.xlsx")
-df_aid_received_original = pd.read_csv("Projeto-A1-LP\data\aid_received_total_us_inflation_adjusted.csv")
-df_gpd_pcap_original = pd.read_csv("Projeto-A1-LP\data\gdp_pcap.csv")
-df_military_original = pd.read_csv("Projeto-A1-LP\data\military_expenditure_percent_of_gdp.csv")
-# df_democracy.to_csv("democracy_rate_EIU_2.csv", index = False)
+df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
+df_democracy_original = pd.read_excel("../data/democracy_rate_EIU_original.xlsx")
+df_aid_received_original = pd.read_csv("../data/aid_received_total_us_inflation_adjusted.csv")
+df_gpd_pcap_original = pd.read_csv("../data/gdp_pcap.csv")
+df_military_original = pd.read_csv("../data/military_expenditure_percent_of_gdp.csv")
+
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
 
-# Decidi manipular df_democracy para usá-lo nos moldes de df_hapiscore, que é mais simples
 
 # Igualando os nomes das colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
@@ -24,78 +24,55 @@ df_democracy = df_democracy.drop(columns=["Economy ISO3", "Indicator ID", "Indic
 # Excluindo dados do ano 2005 de df_hapiscore pois o índice de democracia EIU foi criado em 2006
 df_hapiscore = df_hapiscore.drop(columns=["2005"])
 
-# Analisando países divergentes (a diferença da amostra de países analisados em cada dataset):
-# Printei esse resultado para fazer comparações e adicionei as modificações necessárias em listas e dicionários
-pais_fora_da_intersecao_ida = [pais for pais in list(df_democracy["country"]) if pais not in list(df_hapiscore["country"])]
-pais_fora_da_intersecao_volta =[pais for pais in list(df_hapiscore["country"]) if pais not in list(df_democracy["country"])]
-
-# Tratando países com nomes diferentes :
-alterar_em_democracy = {
-    'Egypt, Arab Rep.' : 'Egypt',
-    'Gambia, The' : 'Gambia',
-    'Hong Kong SAR, China' : 'Hong Kong, China',
-    'Iran, Islamic Rep.' : 'Iran',
-    'Korea, Rep.' : 'South Korea',
-    'Lao PDR' : 'Lao',
-    'West Bank and Gaza' : 'Palestine',
-    'Russian Federation' : 'Russia',
-    'Syrian Arab Republic' : 'Syria',
-    'Taiwan, China' : 'Taiwan',
-    'Venezuela, RB' : 'Venezuela',
-    'Yemen, Rep.' : 'Yemen'
+# Lista dos países que serão alterados nos datasets
+alterar_paises = {
+    'United Arab Emirates': 'UAE',
+    'Cabo Verde': None,  
+    'Czechia': 'Czech Republic',
+    'Egypt, Arab Rep.': 'Egypt',
+    'Eritrea': None,  
+    'Fiji': None,  
+    'United Kingdom': 'UK',
+    'Gambia, The': 'Gambia',
+    'Guinea-Bissau': None,  
+    'Equatorial Guinea': None,  
+    'Hong Kong SAR, China': 'Hong Kong, China',
+    'Iran, Islamic Rep.': 'Iran',
+    'Korea, Rep.': 'South Korea',
+    'Lao PDR': 'Lao',
+    'Papua New Guinea': None,  
+    "Korea, Dem. People's Rep.": None,  
+    'West Bank and Gaza': 'Palestine',
+    'Russian Federation': 'Russia',
+    'Syrian Arab Republic': 'Syria',
+    'Timor-Leste': None,  
+    'Turkiye': 'Turkey',
+    'Taiwan, China': 'Taiwan',
+    'United States': 'USA',
+    'Venezuela, RB': 'Venezuela',
+    'Yemen, Rep.': 'Yemen'
 }
 
-alterar_em_hapiscore = {
-    "Czech Republic" : "Czechia",
-    'UK' : 'United Kingdom',
-    'Turkey' : 'Turkiye',
-    'USA' : 'United States'
-}
+# Aplicando as correções de nomes no dataset de democracia
+df_democracy["country"] = df_democracy["country"].replace(alterar_paises)
 
-# Tratando países que estão em uma base mas não estão em outra:
-apagar_em_democracy = [
-    "Cabo Verde",
-    'Eritrea', 
-    'Fiji',
-    'Guinea-Bissau',
-    'Equatorial Guinea',
-    'Papua New Guinea',
-    "Korea, Dem. People's Rep.",
-    'Timor-Leste'
-]
+# Removendo os países que são 'None' (que não devem estar nos dois datasets)
+df_democracy = df_democracy.dropna(subset=["country"])
 
-apagar_em_hapiscore = [
-    'Belize',
-    'Somalia', 
-    'South Sudan'
-]
+# Aplicando as correções de nomes no dataset hapiscore
+df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_paises)
 
-# Alterar os nomes de países que divergem (ex: EUA e Estados Unidos)
-df_democracy["country"] = df_democracy["country"].replace(alterar_em_democracy)
-df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_em_hapiscore)
+# Removendo os países que são 'None' do dataset hapiscore
+df_hapiscore = df_hapiscore.dropna(subset=["country"])
 
-# Filtrar as linhas que correspondem a países que estão em uma base de dados e não estão em outra,
-# para isso se verifica as interseções
-linhas_para_mover_hapiscore = df_hapiscore[df_hapiscore['country'].isin(apagar_em_hapiscore)]
-linhas_para_mover_democracy = df_democracy[df_democracy['country'].isin(apagar_em_democracy)]
+# Filtrando os datasets para manter apenas os países presentes em ambos
+paises_comuns = set(df_democracy["country"]).intersection(set(df_hapiscore["country"]))
 
-# Converter essas linhas para uma lista de dicionários para armazenar esses dados em df_hapiscore
-# e df_democracy. Teremos os dfs limpos sem esses países fora da interseção.
-dict_linhas_removidas_hapiscore = linhas_para_mover_hapiscore.to_dict(orient='records')
-dict_linhas_removidas_democracy = linhas_para_mover_democracy.to_dict(orient='records')
-
-df_hapiscore_limpo = df_hapiscore.copy()
-df_democracy_limpo = df_democracy.copy()
-
-# Remover essas linhas do DataFrame
-df_hapiscore_limpo = df_hapiscore_limpo[~df_hapiscore['country'].isin(apagar_em_hapiscore)]
-df_democracy_limpo = df_democracy_limpo[~df_democracy['country'].isin(apagar_em_democracy)]
+# Criando datasets limpos com os valores extraídos
+df_democracy_limpo = df_democracy[df_democracy["country"].isin(paises_comuns)].copy()
+df_hapiscore_limpo = df_hapiscore[df_hapiscore["country"].isin(paises_comuns)].copy()
 
 
 if __name__ == "__main__":
-    # visualizar datasets
-    #print(df_democracy.head(15), df_hapiscore.head(15))
-    print(len(df_hapiscore.index))
-    print(pais_fora_da_intersecao_ida, "#",  pais_fora_da_intersecao_volta, sep="\n")
-    print("Dados movidos para a lista:")
-    print(dict_linhas_removidas_hapiscore)
+    print(df_democracy_limpo)
+    print(df_hapiscore_limpo)
