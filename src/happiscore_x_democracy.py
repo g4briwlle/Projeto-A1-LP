@@ -24,7 +24,7 @@ available_years = [col for col in cl.df_hapiscore_limpo.columns if col != 'count
 
 # Layout da página
 app.layout = html.Div([
-    html.H1("Comparação de Índice de Felicidade e Democracia por País", style={'color': 'white'}),
+    html.H1("Comparação de Índice de Felicidade e Democracia por País"),
     
     dcc.Slider(
         id='year-slider',
@@ -37,47 +37,31 @@ app.layout = html.Div([
     
     html.Div([
         html.Div([
-            dcc.Graph(id='happiness-map'),
-        ], style={
-            'flex': '1',
-            'background-color': '#161A28',
-            'border-radius': '15px',
-            'padding': '20px',
-            'margin': '10px'
-        }),
+            dcc.Graph(id='happiness-map', 
+                       config={'displayModeBar': False}, 
+                       style={'height': '100%', 'width': '100%'}
+                      ),
+        ], className='graph-container'),
         
         html.Div([
-            dcc.Graph(id='democracy-map'),
-        ], style={
-            'flex': '1',
-            'background-color': '#161A28',
-            'border-radius': '15px',
-            'padding': '20px',
-            'margin': '10px'
-        }),
-    ], style={
-        'display': 'flex',
-        'justify-content': 'space-between',
-        'align-items': 'stretch',
-    }),
+            dcc.Graph(id='democracy-map', 
+                       config={'displayModeBar': False}, 
+                       style={'height': '100%', 'width': '100%'}
+                      ),
+        ], className='graph-container'),
+    ], className='flex-container'),
     
     html.Div([
-        dcc.Graph(id='scatter-plot'),
-    ], style={
-        'width': '100%',
-        'background-color': '#161A28',
-        'border-radius': '15px',
-        'padding': '20px',
-        'margin': '10px',
-        'font-family': 'sans-serif',
-    }),
-], style={
-    'background-color': '#161A28',
+        dcc.Graph(
+            id='scatter-plot',
+            config={'displayModeBar': False}, 
+            style={'height': '100%', 'width': '100%'}
+        )
+    ], className='graph-container'),
+], 
+style={
     'padding': '20px',
-    'font-family': 'sans-serif',
-    'text-align': 'center',
 })
-
 
 # Função para criar o mapa coroplético e gráfico de dispersão com base no ano
 @app.callback(
@@ -134,4 +118,13 @@ def update_graphs(selected_year):
 
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
+
+
+# style={
+#         'width': '100%',
+#         'background-color': '#161A28',
+#         'border-radius': '15px',
+#         'padding': '20px',
+#         'margin': '10px',
+#         'font-family': 'inherit',

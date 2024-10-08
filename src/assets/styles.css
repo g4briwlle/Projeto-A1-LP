@@ -1,0 +1,25 @@
+/* Criei esse arquivo CSS só pra pegar os atributos de forma mais eficiente */
+body {
+    background-color: #161A28; 
+    font-family: sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: white;
+}
+
+.graph-container {
+    background-color: transparent;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    display: inline-block;
+    width: 100%;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
