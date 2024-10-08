@@ -23,3 +23,9 @@ Para responder essa questão,
 # Proposta 4:
 - Existe uma padrão característico dos índices coletados por região?
 - APAGAR: Para isso classificar grupos de padrões semelhantes por índice (quais países tem padrões parecidos sobre democria? e felicidade? e etc?) e criar df's relacionados, para depois ver se a região dos países tem alguma interferência nas características do país
+
+# Como rodar o código:
+*MUDAR*: 
+1. Digitar "pip install dash" e "pip install plotly" no terminal
+2. Abrir e rodar o arquivo "happiscore_x_democracy.py"
+3. Clicar no link que aparece no terminal segurando a tecla CTRL

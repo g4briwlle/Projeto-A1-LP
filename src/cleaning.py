@@ -2,10 +2,12 @@
 Módulo de limpeza dos datasets
 """
 
+# TODO Fazer limpeza dos outros datasets
+
 import pandas as pd
 
 df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
-df_democracy_original = pd.read_excel("../data/democracy_rate_EIU_original.xlsx")
+df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
 df_aid_received_original = pd.read_csv("../data/aid_received_total_us_inflation_adjusted.csv")
 df_gpd_pcap_original = pd.read_csv("../data/gdp_pcap.csv")
 df_military_original = pd.read_csv("../data/military_expenditure_percent_of_gdp.csv")
@@ -18,11 +20,10 @@ df_hapiscore = df_hapiscore_original.copy()
 # Igualando os nomes das colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 
-# Excluindo colunas desnecessárias
-df_democracy = df_democracy.drop(columns=["Economy ISO3", "Indicator ID", "Indicator", "Attribute 1", "Attribute 2", "Attribute 3", "Partner"])
 
-# Excluindo dados do ano 2005 de df_hapiscore pois o índice de democracia EIU foi criado em 2006
-df_hapiscore = df_hapiscore.drop(columns=["2005"])
+# Excluindo anos de 2005, 2021 e 2021 pois o dataset de democracy não possui dados nesses anos
+df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
+
 
 # Lista dos países que serão alterados nos datasets
 alterar_paises = {
@@ -76,3 +77,4 @@ df_hapiscore_limpo = df_hapiscore[df_hapiscore["country"].isin(paises_comuns)].c
 if __name__ == "__main__":
     print(df_democracy_limpo)
     print(df_hapiscore_limpo)
+
