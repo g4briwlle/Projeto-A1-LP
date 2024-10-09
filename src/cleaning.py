@@ -105,9 +105,4 @@ df_democracy_limpo = df_democracy_limpo[~df_democracy['country'].isin(apagar_em_
 
 
 if __name__ == "__main__":
-    # visualizar datasets
-    #print(df_democracy.head(15), df_hapiscore.head(15))
-    print(len(df_hapiscore.index))
-    print(pais_fora_da_intersecao_ida, "#",  pais_fora_da_intersecao_volta, sep="\n")
-    print("Dados movidos para a lista:")
-    print(dict_linhas_removidas_hapiscore)
+    print()
