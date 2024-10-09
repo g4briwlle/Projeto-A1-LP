@@ -2,16 +2,28 @@
 """
 
 import pandas as pd
+import os
 
-df_hapiscore_original = pd.read_csv("Projeto-A1-LP\data\hapiscore_whr_original.csv")
-df_democracy_original = pd.read_excel("Projeto-A1-LP\data\democracy_rate_EIU_original.xlsx")
-df_aid_received_original = pd.read_csv("Projeto-A1-LP\data\aid_received_total_us_inflation_adjusted.csv")
-df_gpd_pcap_original = pd.read_csv("Projeto-A1-LP\data\gdp_pcap.csv")
-df_military_original = pd.read_csv("Projeto-A1-LP\data\military_expenditure_percent_of_gdp.csv")
+# Criando os caminhos completos para os arquivos
+hapiscore_path = os.path.join('data', 'hapiscore_whr_original.csv')
+democracy_path = os.path.join('data', 'democracy_rate_EIU_original.xlsx')
+aid_received_path = os.path.join('data', 'aid_received_total_us_inflation_adjusted.csv')
+gdp_pcap_path = os.path.join('data', 'gdp_pcap.csv')
+military_path = os.path.join("data", "military_expenditure_percent_of_gdp.csv")
+
+# Carregando os arquivos
+df_hapiscore_original = pd.read_csv(hapiscore_path)
+df_democracy_original = pd.read_excel(democracy_path)
+df_aid_received_original = pd.read_csv(aid_received_path)
+df_gpd_pcap_original = pd.read_csv(gdp_pcap_path)
+df_military_original = pd.read_csv(military_path)
 # df_democracy.to_csv("democracy_rate_EIU_2.csv", index = False)
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
+df_aid_received = df_aid_received_original.copy()
+df_gpd_pcap = df_gpd_pcap_original.copy()
+df_military = df_military_original.copy()
 
 # Decidi manipular df_democracy para usá-lo nos moldes de df_hapiscore, que é mais simples
 
