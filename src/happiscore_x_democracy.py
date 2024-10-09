@@ -1,150 +1,91 @@
 """
 Módulo de visualização Happiscore x Democracy
 """
-
-# TODO Melhorar design da página
-# TODO Selecionar cores para os plots e textos
-
-import dash
-from dash import dcc, html, Input, Output
+import streamlit as st
 import plotly.express as px
 import cleaning as cl
-import plotly.graph_objects as go
+
+# TODO Melhorar design da página
 
 # Preenchendo valores vazios com os anteriores
 cl.df_hapiscore_limpo.fillna(method="ffill", inplace=True)
 cl.df_democracy_limpo.fillna(method="ffill", inplace=True)
 
-# Iniciando o Dash
-app = dash.Dash(__name__)
 
-# Selecionando os anos disponíveis
-available_years = [col for col in cl.df_hapiscore_limpo.columns if col != 'country']
+st.set_page_config(page_title="Análise de Felicidade e Democracia", layout="wide")
 
-# Layout da página
-app.layout = html.Div([
-    html.H1("Comparação de Índice de Felicidade e Democracia por País", style={'color': 'white'}),
-    
-    dcc.Slider(
-        id='year-slider',
-        min=int(min(available_years)),
-        max=int(max(available_years)),
-        value=int(available_years[0]),
-        marks={int(year): year for year in available_years},
-        step=None,
-    ),
-    
-    html.Div([
-        html.Div([
-            dcc.Graph(id='happiness-map', 
-                       config={'displayModeBar': False}, 
-                       style={'height': '100%', 'width': '100%'}
-                      ),
-        ], className='graph-container'),
-        
-        html.Div([
-            dcc.Graph(id='democracy-map', 
-                       config={'displayModeBar': False}, 
-                       style={'height': '100%', 'width': '100%'}
-                      ),
-        ], className='graph-container'),
-    ], className='flex-container'),
-    
-    html.Div([
-        dcc.Graph(
-            id='scatter-plot',
-            config={'displayModeBar': False}, 
-            style={'height': '100%', 'width': '100%'}
-        )
-    ], className='graph-container'),
-], 
-style={
-    'padding': '20px',
-    'background-color': '#161A28',
-    'font-family': 'sans-serif',
-})
+# Barra lateral para seleção de análise
+st.sidebar.title("Navegação")
+analise_selecionada = st.sidebar.selectbox("Selecione a análise", ["Happiness vs Democracy", "OUTRAS ANÁLISES"])
 
+# Slider de ano
+ano = st.sidebar.slider(
+    "Selecione o ano",
+    min_value=int(min(cl.df_hapiscore_limpo.columns[1:])), 
+    max_value=int(max(cl.df_hapiscore_limpo.columns[1:])),
+    value=int(min(cl.df_hapiscore_limpo.columns[1:])),
+    step=1)
 
-@app.callback(
-    [Output('happiness-map', 'figure'),
-     Output('democracy-map', 'figure'),
-     Output('scatter-plot', 'figure')],
-    [Input('year-slider', 'value')]
-)
-def update_graphs(selected_year):
-    """
-    Função que faz o update dos gráficos coropléticos e do gráfico de dispersão com base no ano escolhido no slider
+# Dados para o ano selecionado
+df_hapiscore_viz = cl.df_hapiscore_limpo[['country', str(ano)]]
+df_democracy_viz = cl.df_democracy_limpo[['country', str(ano)]]
 
-    Args:
-        selected_year: 
-
-    Returns:
-        happiness_map:
-        democracy_map:
-        scatter_plot:
-    """
-    year = str(selected_year)
+if analise_selecionada == "Happiness vs Democracy":
+    st.title(f"Análise de Correlação entre Felicidade e Democracia ({ano})")
     
-    # Dados para felicidade e democracia
-    df_hapiscore_viz = cl.df_hapiscore_limpo[['country', year]]
-    df_democracy_viz = cl.df_democracy_limpo[['country', year]]
-    
-    # Mapa coroplético para índice de felicidade
-    happiness_map = px.choropleth(df_hapiscore_viz,
-                                  locations="country",
-                                  locationmode='country names',
-                                  color=year,
-                                  hover_name="country",
-                                  color_continuous_scale=px.colors.sequential.Plasma,
-                                  title=f"Índice de Felicidade por País ({year})")
-    happiness_map.update_layout(
-        plot_bgcolor='#161A28',
-        paper_bgcolor='#161A28',
-        font_color='white',
-        title_font_color='white',
-        geo=dict(bgcolor='#161A28')
-    )
-    
-    # Mapa coroplético para índice de democracia
-    democracy_map = px.choropleth(df_democracy_viz,
-                                  locations="country",
-                                  locationmode='country names',
-                                  color=year,
-                                  hover_name="country",
-                                  color_continuous_scale=px.colors.sequential.Plasma,
-                                  title=f"Índice de Democracia por País ({year})")
-    democracy_map.update_layout(
-        plot_bgcolor='#161A28',
-        paper_bgcolor='#161A28',
-        title_font_color='white',
-        geo=dict(bgcolor='#161A28')
-    )
-    
-    # Gráfico de dispersão
-    scatter_plot = px.scatter(
-        x=df_hapiscore_viz[year],
-        y=df_democracy_viz[year],
-        labels={'x': 'Índice de Felicidade', 'y': 'Índice de Democracia'},
-        hover_name=df_hapiscore_viz['country'],
-        trendline="ols",
-        title=f"Correlação Felicidade vs Democracia ({year})",
-        color_discrete_sequence=['orange']  # Cor dos pontos
-    )
-    
+    # Gráfico de correlação
+    scatter_plot = px.scatter(x=df_hapiscore_viz[str(ano)],
+                              y=df_democracy_viz[str(ano)],
+                              labels={'x': 'Índice de Felicidade', 'y': 'Índice de Democracia'},
+                              hover_name=df_hapiscore_viz['country'],
+                              trendline="ols",
+                              title=f"Felicidade x Democracia ({ano})")
     scatter_plot.update_layout(
         plot_bgcolor='#161A28',
         paper_bgcolor='#161A28',
-        font_color='white',
         title_font_color='white',
-        legend_font_color='white',
-        xaxis=dict(color='white'),  
-        yaxis=dict(color='white')   
+        legend_font_color='white'
     )
+    st.plotly_chart(scatter_plot, use_container_width=True)
 
-    scatter_plot.update_traces(marker=dict(size=7, color='orange'))  
+    # Mapas coropléticos
+    col1, col2 = st.columns(2)
 
-    return happiness_map, democracy_map, scatter_plot
+    with col1:
+        st.subheader(f"Índice de Felicidade ({ano})")
+        happiness_map = px.choropleth(df_hapiscore_viz,
+                                      locations="country",
+                                      locationmode='country names',
+                                      color=str(ano),
+                                      hover_name="country",
+                                      color_continuous_scale=px.colors.sequential.Plasma,
+                                      title=f"Índice de Felicidade por País ({ano})")
+        happiness_map.update_layout(
+            plot_bgcolor='#161A28',
+            paper_bgcolor='#161A28',
+            font_color='white',
+            title_font_color='white',
+            geo=dict(bgcolor='#161A28')
+        )
+        st.plotly_chart(happiness_map, use_container_width=True)
 
+    with col2:
+        st.subheader(f"Índice de Democracia ({ano})")
+        democracy_map = px.choropleth(df_democracy_viz,
+                                      locations="country",
+                                      locationmode='country names',
+                                      color=str(ano),
+                                      hover_name="country",
+                                      color_continuous_scale=px.colors.sequential.Plasma,
+                                      title=f"Índice de Democracia por País ({ano})")
+        democracy_map.update_layout(
+            plot_bgcolor='#161A28',
+            paper_bgcolor='#161A28',
+            title_font_color='white',
+            geo=dict(bgcolor='#161A28')
+        )
+        st.plotly_chart(democracy_map, use_container_width=True)
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+else:
+    st.title("Outras Correlações")
+    st.write("Colocar outras análises aqui")
