@@ -26,6 +26,5 @@ Para responder essa questão,
 
 # Como rodar o código:
 *MUDAR*: 
-1. Digitar "pip install dash" e "pip install plotly" no terminal
-2. Abrir e rodar o arquivo "happiscore_x_democracy.py"
-3. Clicar no link que aparece no terminal segurando a tecla CTRL
+1. Digitar "pip install streamlit" e "pip install plotly" no terminal
+2. Navegar até a pasta 'src' e digitar 'streamlit run happiscore_x_democracy.py' no terminal 
