@@ -1,16 +1,15 @@
 """
 Módulo de visualização Happiscore x Democracy
 """
+
+# TODO Melhorar design da página
+# TODO Selecionar cores para os plots e textos
+
 import dash
 from dash import dcc, html, Input, Output
 import plotly.express as px
 import cleaning as cl
 import plotly.graph_objects as go
-
-# TODO Mudar a cor de background dos gráficos
-# TODO Melhorar design da página
-# TODO Selecionar cores para os plots e textos
-
 
 # Preenchendo valores vazios com os anteriores
 cl.df_hapiscore_limpo.fillna(method="ffill", inplace=True)
@@ -24,7 +23,7 @@ available_years = [col for col in cl.df_hapiscore_limpo.columns if col != 'count
 
 # Layout da página
 app.layout = html.Div([
-    html.H1("Comparação de Índice de Felicidade e Democracia por País"),
+    html.H1("Comparação de Índice de Felicidade e Democracia por País", style={'color': 'white'}),
     
     dcc.Slider(
         id='year-slider',
@@ -61,9 +60,11 @@ app.layout = html.Div([
 ], 
 style={
     'padding': '20px',
+    'background-color': '#161A28',
+    'font-family': 'sans-serif',
 })
 
-# Função para criar o mapa coroplético e gráfico de dispersão com base no ano
+
 @app.callback(
     [Output('happiness-map', 'figure'),
      Output('democracy-map', 'figure'),
@@ -97,12 +98,13 @@ def update_graphs(selected_year):
                                   color_continuous_scale=px.colors.sequential.Plasma,
                                   title=f"Índice de Felicidade por País ({year})")
     happiness_map.update_layout(
-    plot_bgcolor='#161A28',
-    paper_bgcolor='#161A28',
-    font_color='white',
-    title_font_color='white',
-    geo=dict(bgcolor='#161A28')
+        plot_bgcolor='#161A28',
+        paper_bgcolor='#161A28',
+        font_color='white',
+        title_font_color='white',
+        geo=dict(bgcolor='#161A28')
     )
+    
     # Mapa coroplético para índice de democracia
     democracy_map = px.choropleth(df_democracy_viz,
                                   locations="country",
@@ -112,34 +114,37 @@ def update_graphs(selected_year):
                                   color_continuous_scale=px.colors.sequential.Plasma,
                                   title=f"Índice de Democracia por País ({year})")
     democracy_map.update_layout(
-    plot_bgcolor='#161A28',
-    paper_bgcolor='#161A28',
-    title_font_color='white',
-    geo=dict(bgcolor='#161A28')
+        plot_bgcolor='#161A28',
+        paper_bgcolor='#161A28',
+        title_font_color='white',
+        geo=dict(bgcolor='#161A28')
     )
+    
     # Gráfico de dispersão
-    scatter_plot = px.scatter(x=df_hapiscore_viz[year],
-                              y=df_democracy_viz[year],
-                              labels={'x': 'Índice de Felicidade', 'y': 'Índice de Democracia'},
-                              hover_name=df_hapiscore_viz['country'],
-                              trendline="ols",
-                              title=f"Correlação Felicidade vs Democracia ({year})")
-    scatter_plot.update_layout(
-    plot_bgcolor='#161A28',
-    paper_bgcolor='#161A28',
-    title_font_color='white',
+    scatter_plot = px.scatter(
+        x=df_hapiscore_viz[year],
+        y=df_democracy_viz[year],
+        labels={'x': 'Índice de Felicidade', 'y': 'Índice de Democracia'},
+        hover_name=df_hapiscore_viz['country'],
+        trendline="ols",
+        title=f"Correlação Felicidade vs Democracia ({year})",
+        color_discrete_sequence=['orange']  # Cor dos pontos
     )
+    
+    scatter_plot.update_layout(
+        plot_bgcolor='#161A28',
+        paper_bgcolor='#161A28',
+        font_color='white',
+        title_font_color='white',
+        legend_font_color='white',
+        xaxis=dict(color='white'),  
+        yaxis=dict(color='white')   
+    )
+
+    scatter_plot.update_traces(marker=dict(size=7, color='orange'))  
+
     return happiness_map, democracy_map, scatter_plot
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-# style={
-#         'width': '100%',
-#         'background-color': '#161A28',
-#         'border-radius': '15px',
-#         'padding': '20px',
-#         'margin': '10px',
-#         'font-family': 'inherit',
