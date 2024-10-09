@@ -10,7 +10,7 @@ h1 {
 }
 
 .graph-container {
-    background-color: transparent;
+    /* background-color: transparent; */
     border-radius: 15px;
     padding: 20px;
     margin: 10px;

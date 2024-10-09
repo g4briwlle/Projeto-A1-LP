@@ -96,7 +96,13 @@ def update_graphs(selected_year):
                                   hover_name="country",
                                   color_continuous_scale=px.colors.sequential.Plasma,
                                   title=f"Índice de Felicidade por País ({year})")
-    
+    happiness_map.update_layout(
+    plot_bgcolor='#161A28',
+    paper_bgcolor='#161A28',
+    font_color='white',
+    title_font_color='white',
+    geo=dict(bgcolor='#161A28')
+    )
     # Mapa coroplético para índice de democracia
     democracy_map = px.choropleth(df_democracy_viz,
                                   locations="country",
@@ -105,7 +111,12 @@ def update_graphs(selected_year):
                                   hover_name="country",
                                   color_continuous_scale=px.colors.sequential.Plasma,
                                   title=f"Índice de Democracia por País ({year})")
-    
+    democracy_map.update_layout(
+    plot_bgcolor='#161A28',
+    paper_bgcolor='#161A28',
+    title_font_color='white',
+    geo=dict(bgcolor='#161A28')
+    )
     # Gráfico de dispersão
     scatter_plot = px.scatter(x=df_hapiscore_viz[year],
                               y=df_democracy_viz[year],
@@ -113,7 +124,11 @@ def update_graphs(selected_year):
                               hover_name=df_hapiscore_viz['country'],
                               trendline="ols",
                               title=f"Correlação Felicidade vs Democracia ({year})")
-    
+    scatter_plot.update_layout(
+    plot_bgcolor='#161A28',
+    paper_bgcolor='#161A28',
+    title_font_color='white',
+    )
     return happiness_map, democracy_map, scatter_plot
 
 
