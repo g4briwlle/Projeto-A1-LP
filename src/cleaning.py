@@ -123,9 +123,23 @@ df_mil_exp_limpo = df_mil_exp[df_mil_exp["country"].isin(paises_comuns_mil_exp_g
 df_gdp_pcap_limpo = df_gdp_pcap[df_gdp_pcap["country"].isin(paises_comuns_mil_exp_gdp)].copy()
 
 
+# Removendo o 'k' e multiplicando o número por 1000
+def convert_k_to_numeric(value):
+    if isinstance(value, str) and 'k' in value:
+        return float(value.replace('k', '')) * 1000
+    else:
+        return pd.to_numeric(value, errors='coerce')
+    
+# Aplicando a função à coluna de PIB per capita do dataset
+for year in range(1960, 2023):
+    df_gdp_pcap_limpo[str(year)] = df_gdp_pcap_limpo[str(year)].apply(convert_k_to_numeric)
+    
+
 if __name__ == "__main__":
-    print(df_mil_exp_limpo)
-    print(df_gdp_pcap_limpo)
-    print(df_democracy_limpo)
-    print(df_hapiscore_limpo)
+    # print(df_mil_exp_limpo)
+    # print(df_gdp_pcap_limpo)
+    # print(df_democracy_limpo)
+    # print(df_hapiscore_limpo)
+    print(df_mil_exp_limpo['1964'])
+    print(df_mil_exp_limpo['1965'])
 

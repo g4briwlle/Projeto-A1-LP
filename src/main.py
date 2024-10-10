@@ -40,9 +40,9 @@ if analise_selecionada == "Happiness vs Democracy":
 elif analise_selecionada == "Military Expenditure vs GDP per Capita":
     ano = st.sidebar.slider(
     "Selecione o ano",
-    min_value=int(min(cl.df_hapiscore_limpo.columns[1:])), 
-    max_value=int(max(cl.df_hapiscore_limpo.columns[1:])),
-    value=int(min(cl.df_hapiscore_limpo.columns[1:])),
+    min_value=int(min(cl.df_mil_exp_limpo.columns[1:])), 
+    max_value=int(max(cl.df_mil_exp_limpo.columns[1:])),
+    value=int(min(cl.df_mil_exp_limpo.columns[1:])),
     step=1)
     plot_mil_exp_x_gdp_pcap(ano)
 else:
