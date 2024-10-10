@@ -8,14 +8,15 @@ import pandas as pd
 
 df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
 df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
-df_aid_received_original = pd.read_csv("../data/aid_received_total_us_inflation_adjusted.csv")
+df_aid_received_original = pd.read_csv("../data/aid_received_per_person_current_us.csv")
 df_gpd_pcap_original = pd.read_csv("../data/gdp_pcap.csv")
 df_military_original = pd.read_csv("../data/military_expenditure_percent_of_gdp.csv")
 
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
-
+df_aid_received = df_aid_received_original.copy()
+df_military_expenditure = df_military_original.copy()
 
 # Igualando os nomes das colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
@@ -26,7 +27,7 @@ df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
 
 
 # Lista dos países que serão alterados nos datasets
-alterar_paises = {
+alterar_paises_happiness_x_democracy = {
     'United Arab Emirates': 'UAE',
     'Cabo Verde': None,  
     'Czechia': 'Czech Republic',
@@ -55,13 +56,13 @@ alterar_paises = {
 }
 
 # Aplicando as correções de nomes no dataset de democracia
-df_democracy["country"] = df_democracy["country"].replace(alterar_paises)
+df_democracy["country"] = df_democracy["country"].replace(alterar_paises_happiness_x_democracy)
 
 # Removendo os países que são 'None' (que não devem estar nos dois datasets)
 df_democracy = df_democracy.dropna(subset=["country"])
 
 # Aplicando as correções de nomes no dataset hapiscore
-df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_paises)
+df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_paises_happiness_x_democracy)
 
 # Removendo os países que são 'None' do dataset hapiscore
 df_hapiscore = df_hapiscore.dropna(subset=["country"])
