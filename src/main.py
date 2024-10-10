@@ -4,6 +4,8 @@ from happiscore_x_democracy import plot_happiness_democracy
 import streamlit as st
 import cleaning as cl
 
+# TODO Adicionar as outras visualizações
+
 st.set_page_config(page_title="Análise de Felicidade e Democracia", layout="wide")
 
 # Adicionando CSS
@@ -24,16 +26,15 @@ st.markdown("""
 st.sidebar.title("Navegação")
 analise_selecionada = st.sidebar.selectbox("Selecione a análise", ["Happiness vs Democracy", "OUTRAS ANÁLISES"])
 
-# Slider de ano
-ano = st.sidebar.slider(
+
+# Modificando o que aparece na página de acordo com a análise escolhida pelo usuário
+if analise_selecionada == "Happiness vs Democracy":
+    ano = st.sidebar.slider(
     "Selecione o ano",
     min_value=int(min(cl.df_hapiscore_limpo.columns[1:])), 
     max_value=int(max(cl.df_hapiscore_limpo.columns[1:])),
     value=int(min(cl.df_hapiscore_limpo.columns[1:])),
     step=1)
-
-
-if analise_selecionada == "Happiness vs Democracy":
     plot_happiness_democracy(ano)
 else:
     st.title("Outras Correlações")

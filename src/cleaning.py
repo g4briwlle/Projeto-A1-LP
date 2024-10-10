@@ -27,7 +27,6 @@ df_aid_received = df_aid_received_original.copy()
 df_gpd_pcap = df_gpd_pcap_original.copy()
 df_military = df_military_original.copy()
 
-
 # Igualando os nomes das colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 
@@ -37,7 +36,7 @@ df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
 
 
 # Lista dos países que serão alterados nos datasets
-alterar_paises = {
+alterar_paises_happiness_x_democracy = {
     'United Arab Emirates': 'UAE',
     'Cabo Verde': None,  
     'Czechia': 'Czech Republic',
@@ -66,13 +65,13 @@ alterar_paises = {
 }
 
 # Aplicando as correções de nomes no dataset de democracia
-df_democracy["country"] = df_democracy["country"].replace(alterar_paises)
+df_democracy["country"] = df_democracy["country"].replace(alterar_paises_happiness_x_democracy)
 
 # Removendo os países que são 'None' (que não devem estar nos dois datasets)
 df_democracy = df_democracy.dropna(subset=["country"])
 
 # Aplicando as correções de nomes no dataset hapiscore
-df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_paises)
+df_hapiscore["country"] = df_hapiscore["country"].replace(alterar_paises_happiness_x_democracy)
 
 # Removendo os países que são 'None' do dataset hapiscore
 df_hapiscore = df_hapiscore.dropna(subset=["country"])
