@@ -8,11 +8,16 @@ import pandas as pd
 import os
 
 # Criando os caminhos completos para os arquivos
-hapiscore_path = os.path.join('data', 'hapiscore_whr_original.csv')
-democracy_path = os.path.join('data', 'democracy_rate_EIU_original.xlsx')
-aid_received_path = os.path.join('data', 'aid_received_total_us_inflation_adjusted.csv')
-gdp_pcap_path = os.path.join('data', 'gdp_pcap.csv')
-military_path = os.path.join("data", "military_expenditure_percent_of_gdp.csv")
+# hapiscore_path = os.path.join('..', 'data', 'hapiscore_whr_original.csv')
+# aid_received_path = os.path.join('..', 'data', 'aid_received_per_person_current_us.csv')
+# democracy_path = os.path.join('..', 'data', 'democracy_rate_EIU_original.xlsx')
+# gdp_pcap_path = os.path.join('..', 'data', 'gdp_pcap.csv')
+# military_path = os.path.join('..', "data", "military_expenditure_percent_of_gdp.csv")
+hapiscore_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', "data", 'hapiscore_whr_original.csv'))
+democracy_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', "data", 'aid_received_per_person_current_us.csv'))
+aid_received_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', "data", 'democracy_rate_EIU_original.xlsx'))
+gdp_pcap_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', "data", 'gdp_pcap.csv'))
+military_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', "data", "military_expenditure_percent_of_gdp.csv"))
 
 # Carregando os arquivos
 df_hapiscore_original = pd.read_csv(hapiscore_path)
@@ -20,6 +25,7 @@ df_democracy_original = pd.read_excel(democracy_path)
 df_aid_received_original = pd.read_csv(aid_received_path)
 df_gpd_pcap_original = pd.read_csv(gdp_pcap_path)
 df_military_original = pd.read_csv(military_path)
+
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
