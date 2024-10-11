@@ -1,11 +1,18 @@
 """ 
 Módulo de limpeza dos datasets
+
+Este script faz a limpeza e o pré-processamento de vários datasets,
+como os de índices de felicidade, democracia, PIB, gasto militar e emissões de CO2 per capita.
+Ele renomeia países, remove anos irrelevantes, filtra países comuns entre os datasets
+e converte medidas de grandeza de valores numéricos.
+
 """
 
 # TODO Fazer limpeza dos outros datasets
 
 import pandas as pd
 
+# Carregando os datasets originais
 df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
 df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
 df_aid_received_original = pd.read_csv("../data/aid_received_per_person_current_us.csv")
@@ -20,11 +27,11 @@ df_gdp_total = df_gdp_total_original.copy()
 df_mil_exp = df_military_original.copy()
 df_co2_pcap = df_co2_pcap_original.copy()
 
-# Igualando os nomes das colunas
+# Renomeando colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 
 
-# Excluindo anos que não estão na interseção dos datasets
+# Removendo anos irrelevantes ou ausentes em outros datasets
 df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
 df_gpd_total = df_gdp_total.drop(columns=["2023"])
 
@@ -34,7 +41,7 @@ for ano in range(1800, 1960):
 df_co2_pcap = df_co2_pcap.drop(columns=anos_removidos)
 
 
-# Lista dos países que serão alterados nos datasets
+# Dicionários de renomeação dos países que serão alterados nos datasets
 alterar_paises_happiness_x_democracy = {
     'United Arab Emirates': 'UAE',
     'Cabo Verde': None,  
@@ -182,11 +189,11 @@ def convertendo_grandezas_para_numerico(value):
     else:
         return pd.to_numeric(value, errors="coerce")
     
-# Aplicando a função à coluna de PIB per capita do dataset
+# Aplicando a função para corrigir os valores do dataset de PIB
 for year in range(1960, 2023):
     df_gdp_total_limpo[str(year)] = df_gdp_total_limpo[str(year)].apply(convertendo_grandezas_para_numerico)
     
-
+# Imprimindo os datasets limpos
 if __name__ == "__main__":
     print(df_mil_exp_limpo)
     print(df_co2_pcap_limpo)
