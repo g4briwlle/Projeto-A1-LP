@@ -27,7 +27,7 @@ def plot_mil_exp_x_gdp_total(year):
     df_gdp_total_viz = df_gdp_total_viz[df_gdp_total_viz["country"].isin(df_mil_exp_viz["country"])]
     df_mil_exp_viz = df_mil_exp_viz[df_mil_exp_viz["country"].isin(df_gdp_total_viz["country"])]
 
-
+    # Adicionando título da página
     st.title(f"Análise de Correlação entre PIB per Capita e Despesas Militares ({year})")
 
     # Gráfico de correlação
@@ -39,6 +39,7 @@ def plot_mil_exp_x_gdp_total(year):
         trendline="ols",
         title=f"PIB (Dólares) vs Despesas Militares (% do PIB) ({year})"
     )
+
     scatter_plot.update_layout(
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -46,12 +47,13 @@ def plot_mil_exp_x_gdp_total(year):
         legend_font_color="white",
         height=450
     )
+
     st.plotly_chart(scatter_plot, use_container_width=True)
 
     # Mapas coropléticos
-    coluna_1, coluna_2 = st.columns(2)
+    mil_exp_column, gdp_column = st.columns(2)
 
-    with coluna_1:
+    with mil_exp_column:
         st.subheader(f"Despesas Militares (% do PIB) ({year})")
         mil_expend_map = px.choropleth(
             df_mil_exp_viz,
@@ -61,8 +63,9 @@ def plot_mil_exp_x_gdp_total(year):
             hover_name="country",
             color_continuous_scale=px.colors.sequential.Plasma,
             range_color=(df_mil_exp_viz[str(year)].min(), df_mil_exp_viz[str(year)].max()),
-            title="Military Expenditure Data"
+            title="Dados do Stockholm International Peace Research Institute (SIPRI)"
         )
+
         mil_expend_map.update_layout(
             plot_bgcolor='#161A28',
             paper_bgcolor='rgba(0,0,0,0)',
@@ -79,18 +82,21 @@ def plot_mil_exp_x_gdp_total(year):
             ),
             height=300
         )
+
         st.plotly_chart(mil_expend_map, use_container_width=True)
 
-    with coluna_2:
+    with gdp_column:
         st.subheader(f"PIB (Dólares) ({year})")
-        df_gdp_total_map = px.choropleth(df_gdp_total_viz,
-                                        locations="country",
-                                        locationmode='country names',
-                                        color=str(year),
-                                        hover_name="country",
-                                        color_continuous_scale=px.colors.sequential.Plasma,
-                                        title="Dados do World Bank"
+        df_gdp_total_map = px.choropleth(
+            df_gdp_total_viz,
+            locations="country",
+            locationmode='country names',
+            color=str(year),
+            hover_name="country",
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title="Dados do World Bank"
         )
+
         df_gdp_total_map.update_layout(
             plot_bgcolor="#161A28",
             paper_bgcolor="rgba(0,0,0,0)",
@@ -106,6 +112,7 @@ def plot_mil_exp_x_gdp_total(year):
                 autoexpand=False
             ),
         )
+
         st.plotly_chart(df_gdp_total_map, use_container_width=True)
 
     # Retornar os gráficos para verificação nos testes
