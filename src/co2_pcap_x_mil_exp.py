@@ -31,12 +31,14 @@ def plot_co2_pcap_x_mil_exp(year):
     st.title(f"Análise de Correlação entre emissões de CO2 com despesas militares ({year})")
     
     # Gráfico de correlação
-    scatter_plot = px.scatter(x=df_mil_exp_viz[str(year)],
-                              y=df_co2_pcap_viz[str(year)],
-                              labels={"x": "Emissões de CO2 (Toneladas)", "y": "Despesas militares (% do PIB)"},
-                              hover_name=df_mil_exp_viz["country"],
-                              trendline="ols",
-                              title=f" CO2 per Capita vs Despesas Militares (% do PIB) ({year})")
+    scatter_plot = px.scatter(
+        x=df_mil_exp_viz[str(year)],
+        y=df_co2_pcap_viz[str(year)],
+        labels={"x": "Despesas militares (% do PIB)", "y": "Emissões de CO2 (Toneladas)"},
+        hover_name=df_mil_exp_viz["country"],
+        trendline="ols",
+        title=f"CO2 per Capita (Toneladas) vs Despesas Militares (% do PIB) ({year})")
+    
     scatter_plot.update_layout(
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -47,17 +49,19 @@ def plot_co2_pcap_x_mil_exp(year):
     st.plotly_chart(scatter_plot, use_container_width=True)
 
     # Mapas coropléticos
-    coluna_1, coluna_2 = st.columns(2)
+    co2_pcap_column, mil_exp_column = st.columns(2)
 
-    with coluna_1:
+    with co2_pcap_column:
         st.subheader(f"Emissão de CO2 per Capita (Toneladas) ({year})")
-        co2_pcap_map = px.choropleth(df_co2_pcap_viz,
-                                      locations="country",
-                                      locationmode="country names",
-                                      color=str(year),
-                                      hover_name="country",
-                                      color_continuous_scale=px.colors.sequential.Plasma,
-                                      title="Dados do GM CO2 e CDIAC")
+        co2_pcap_map = px.choropleth(
+            df_co2_pcap_viz,
+            locations="country",
+            locationmode="country names",
+            color=str(year),
+            hover_name="country",
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title="Dados do GM CO2 e CDIAC")
+        
         co2_pcap_map.update_layout(
             plot_bgcolor='#161A28',
             paper_bgcolor='rgba(0,0,0,0)',
@@ -75,15 +79,17 @@ def plot_co2_pcap_x_mil_exp(year):
         )
         st.plotly_chart(co2_pcap_map, use_container_width=True)
 
-    with coluna_2:
+    with mil_exp_column:
         st.subheader(f"Despesas Militares (% do PIB) ({year})")
-        df_mil_exp_map = px.choropleth(df_mil_exp_viz,
-                                      locations="country",
-                                      locationmode='country names',
-                                      color=str(year),
-                                      hover_name="country",
-                                      color_continuous_scale=px.colors.sequential.Plasma,
-                                      title="Dados do Stockholm International Peace Research Institute (SIPRI)")
+        df_mil_exp_map = px.choropleth(
+            df_mil_exp_viz,
+            locations="country",
+            locationmode='country names',
+            color=str(year),
+            hover_name="country",
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title="Dados do Stockholm International Peace Research Institute (SIPRI)")
+        
         df_mil_exp_map.update_layout(
             plot_bgcolor="#161A28",
             paper_bgcolor="rgba(0,0,0,0)",
@@ -98,4 +104,5 @@ def plot_co2_pcap_x_mil_exp(year):
                 pad=4,
                 autoexpand=False),
         )
+
         st.plotly_chart(df_mil_exp_map, use_container_width=True)

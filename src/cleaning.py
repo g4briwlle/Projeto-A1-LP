@@ -2,17 +2,14 @@
 Módulo de limpeza dos datasets
 """
 
-# TODO Fazer limpeza dos outros datasets
-
 import pandas as pd
 
 df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
 df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
-df_aid_received_original = pd.read_csv("../data/aid_received_per_person_current_us.csv")
 df_gdp_total_original = pd.read_csv("../data/total_gdp_us_inflation_adjusted.csv")
 df_military_original = pd.read_csv("../data/military_expenditure_percent_of_gdp.csv")
 df_co2_pcap_original = pd.read_csv("../data/co2_pcap_cons.csv")
-df_arms_exports_original = pd.read_csv("../data/arms_exports_us_inflation_adjusted.csv")
+
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
@@ -34,7 +31,7 @@ for ano in range(1800, 1960):
 df_co2_pcap = df_co2_pcap.drop(columns=anos_removidos)
 
 
-# Lista dos países que serão alterados nos datasets
+# Dicionários dos países que serão alterados nos datasets
 alterar_paises_happiness_x_democracy = {
     'United Arab Emirates': 'UAE',
     'Cabo Verde': None,  
@@ -63,7 +60,6 @@ alterar_paises_happiness_x_democracy = {
     'Yemen, Rep.': 'Yemen'
 }
 
-# Lista dos países que serão alterados nos datasets
 alterar_paises_mil_exp_x_gdp = {
     'Micronesia': None,
     'Kosovo': None,

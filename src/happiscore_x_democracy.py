@@ -19,12 +19,13 @@ def plot_happiness_democracy(year):
     st.title(f"Análise de Correlação entre Felicidade e Democracia ({year})")
     
     # Gráfico de correlação
-    scatter_plot = px.scatter(x=df_hapiscore_viz[str(year)],
-                              y=df_democracy_viz[str(year)],
-                              labels={"x": "Índice de Felicidade", "y": "Índice de Democracia"},
-                              hover_name=df_hapiscore_viz["country"],
-                              trendline="ols",
-                              title=f"Felicidade vs Democracia ({year})")
+    scatter_plot = px.scatter(
+        x=df_hapiscore_viz[str(year)],
+        y=df_democracy_viz[str(year)],
+        labels={"x": "Índice de Felicidade", "y": "Índice de Democracia"},
+        hover_name=df_hapiscore_viz["country"],
+        trendline="ols",
+        title=f"Felicidade vs Democracia ({year})")
     scatter_plot.update_layout(
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -35,17 +36,19 @@ def plot_happiness_democracy(year):
     st.plotly_chart(scatter_plot, use_container_width=True)
 
     # Mapas coropléticos
-    coluna_1, coluna_2 = st.columns(2)
+    hapiscore_column, democracy_column = st.columns(2)
 
-    with coluna_1:
+    with hapiscore_column:
         st.subheader(f"Índice de Felicidade ({year})")
-        happiness_map = px.choropleth(df_hapiscore_viz,
-                                      locations="country",
-                                      locationmode="country names",
-                                      color=str(year),
-                                      hover_name="country",
-                                      color_continuous_scale=px.colors.sequential.Plasma,
-                                      title="Dados do World Happiness Report")
+        happiness_map = px.choropleth(
+            df_hapiscore_viz,
+            locations="country",
+            locationmode="country names",
+            color=str(year),
+            hover_name="country",
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title="Dados do World Happiness Report")
+        
         happiness_map.update_layout(
             plot_bgcolor="#161A28",
             paper_bgcolor="rgba(0,0,0,0)",
@@ -61,17 +64,20 @@ def plot_happiness_democracy(year):
                 autoexpand=False),
             height=300
         )
+
         st.plotly_chart(happiness_map, use_container_width=True)
 
-    with coluna_2:
+    with democracy_column:
         st.subheader(f"Índice de Democracia ({year})")
-        democracy_map = px.choropleth(df_democracy_viz,
-                                      locations="country",
-                                      locationmode="country names",
-                                      color=str(year),
-                                      hover_name="country",
-                                      color_continuous_scale=px.colors.sequential.Plasma,
-                                      title="Dados do Economist Inteligence Unit")
+        democracy_map = px.choropleth(
+            df_democracy_viz,
+            locations="country",
+            locationmode="country names",
+            color=str(year),
+            hover_name="country",
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title="Dados do Economist Inteligence Unit")
+        
         democracy_map.update_layout(
             plot_bgcolor="#161A28",
             paper_bgcolor="rgba(0,0,0,0)",
@@ -86,4 +92,5 @@ def plot_happiness_democracy(year):
                 pad=4,
                 autoexpand=False),
         )
+
         st.plotly_chart(democracy_map, use_container_width=True)
