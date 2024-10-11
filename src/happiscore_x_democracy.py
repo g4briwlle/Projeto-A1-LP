@@ -8,8 +8,8 @@ import cleaning as cl
 # TODO Melhorar design da página
 
 # Preenchendo valores vazios com os anteriores
-cl.df_hapiscore_limpo.fillna(method="ffill", inplace=True)
-cl.df_democracy_limpo.fillna(method="ffill", inplace=True)
+cl.df_hapiscore_limpo.bfill(inplace=True)
+cl.df_democracy_limpo.bfill(inplace=True)
 
 
 # Função para plotar os gráficos
