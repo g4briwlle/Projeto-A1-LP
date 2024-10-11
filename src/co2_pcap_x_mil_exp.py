@@ -1,5 +1,5 @@
 """
-Módulo de visualização Happiscore x Democracy
+Módulo de visualização Co2 percapita x Military Expenditure
 """
 import streamlit as st
 import plotly.express as px
@@ -99,3 +99,6 @@ def plot_co2_pcap_x_mil_exp(year):
                 autoexpand=False),
         )
         st.plotly_chart(df_mil_exp_map, use_container_width=True)
+
+    # Retornar os gráficos para verificação nos testes
+    return scatter_plot, co2_pcap_map, df_mil_exp_map
