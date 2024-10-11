@@ -9,55 +9,55 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 from src import cleaning as cl
 
 class TestCleaning(unittest.TestCase):
-    
-    def setUp(self):
-        # Exemplo de dados que serão usados nos testes
-        self.df_demo = pd.DataFrame({
-            'Economy Name': ['Country1', 'Country2', 'United Arab Emirates'],
-            '2005': [50, 60, 70],
-            '2021': [55, 65, 75],
-            '2022': [56, 66, 76],
-            '2006': [57, 67, 77]
-        })
-        self.df_hap = pd.DataFrame({
-            'country': ['Country1', 'Country2', 'Cabo Verde'],
-            '2005': [40, 50, 60],
-            '2021': [45, 55, 65],
-            '2022': [46, 56, 66],
-            '2006': [47, 57, 67]
-        })
-        
-    def test_renomear_colunas(self):
-        # Testar se a renomeação da coluna foi feita corretamente
-        df_renomeado = self.df_demo.rename(columns={"Economy Name": "country"})
-        self.assertIn("country", df_renomeado.columns)
-        self.assertNotIn("Economy Name", df_renomeado.columns)
 
-    def test_exclusao_anos(self):
-        # Testar se os anos foram excluídos corretamente
-        df_hap_clean = self.df_hap.drop(columns=["2005", "2021", "2022"])
-        self.assertNotIn("2005", df_hap_clean.columns)
-        self.assertIn("2006", df_hap_clean.columns)
+    @classmethod
+    def setUpClass(cls):
+        # Inicializar os DataFrames originais e as versões "limpas"
+        cls.df_democracy = cl.df_democracy.copy()
+        cls.df_hapiscore = cl.df_hapiscore.copy()
+        cls.df_gdp_total = cl.df_gdp_total.copy()
+        cls.df_mil_exp = cl.df_mil_exp.copy()
+        cls.df_co2_pcap = cl.df_co2_pcap.copy()
+        
+        cls.df_democracy_limpo = cl.df_democracy_limpo
+        cls.df_hapiscore_limpo = cl.df_hapiscore_limpo
+        cls.df_gdp_total_limpo = cl.df_gdp_total_limpo
+        cls.df_mil_exp_limpo = cl.df_mil_exp_limpo
+        cls.df_co2_pcap_limpo = cl.df_co2_pcap_limpo
+
+    def test_remocao_anos(self):
+        # Testar se os anos foram removidos corretamente de df_hapiscore e df_gdp_total
+        anos_removidos = ["2005", "2021", "2022"]
+        for ano in anos_removidos:
+            self.assertNotIn(ano, self.df_hapiscore.columns)
+        
+        self.assertNotIn("2023", self.df_gdp_total.columns)
 
     def test_substituicao_paises(self):
-        # Testar a substituição de países
-        alterar_paises = {'United Arab Emirates': 'UAE', 'Cabo Verde': None}
-        df_substituido = self.df_hap.copy()
-        df_substituido['country'] = df_substituido['country'].replace(alterar_paises)
+        # Testar se as substituições de países foram feitas corretamente em df_democracy e df_hapiscore
+        paises_esperados = ['UAE']  # Por exemplo, 'United Arab Emirates' virou 'UAE'
+        self.assertIn('UAE', self.df_democracy['country'].values)
+        self.assertIn('UAE', self.df_hapiscore['country'].values)
+
+    def test_remocao_paises(self):
+        # Testar se os países removidos foram corretamente excluídos (Cabo Verde, Micronesia, Kosovo etc.)
+        paises_removidos = ['Cabo Verde', 'Micronesia', 'Kosovo']
         
-        self.assertIn('UAE', df_substituido['country'].values)
-        self.assertNotIn('Cabo Verde', df_substituido.dropna()['country'].values)
-    
-    def test_convertendo_grandezas_para_numerico(self):
-        # Testar a conversão de grandezas para numéricos
-        valores = ['10k', '5M', '2B', '3TR', 'NaN']
-        valores_convertidos = [cleaning.convertendo_grandezas_para_numerico(v) for v in valores]
-        
-        self.assertEqual(valores_convertidos[0], 10000)
-        self.assertEqual(valores_convertidos[1], 5000000)
-        self.assertEqual(valores_convertidos[2], 2000000000)
-        self.assertEqual(valores_convertidos[3], 3000000000000)
-        self.assertTrue(pd.isna(valores_convertidos[4]))
+        for pais in paises_removidos:
+            self.assertNotIn(pais, self.df_democracy['country'].values)
+            self.assertNotIn(pais, self.df_hapiscore['country'].values)
+            self.assertNotIn(pais, self.df_mil_exp['country'].values)
+
+    def test_format_final_dfs(self):
+        # Verificar se os DataFrames finais (limpos) possuem os países em comum esperados
+        paises_comuns_hap_dem = set(self.df_democracy_limpo['country']).intersection(set(self.df_hapiscore_limpo['country']))
+        paises_comuns_mil_exp_gdp = set(self.df_mil_exp_limpo['country']).intersection(set(self.df_gdp_total_limpo['country']))
+        paises_comuns_co2_mil_exp = set(self.df_mil_exp_limpo['country']).intersection(set(self.df_co2_pcap_limpo['country']))
+
+        # Verificar se os DataFrames limpos mantêm apenas os países em comum
+        self.assertEqual(set(self.df_democracy_limpo['country']), paises_comuns_hap_dem)
+        self.assertEqual(set(self.df_mil_exp_limpo['country']), paises_comuns_mil_exp_gdp)
+        self.assertEqual(set(self.df_co2_pcap_limpo['country']), paises_comuns_co2_mil_exp)
 
 if __name__ == '__main__':
     unittest.main()

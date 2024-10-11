@@ -37,7 +37,6 @@ df_co2_pcap = df_co2_pcap_original.copy()
 # Igualando os nomes das colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 
-
 # Excluindo anos que não estão na interseção dos datasets
 df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
 df_gpd_total = df_gdp_total.drop(columns=["2023"])
