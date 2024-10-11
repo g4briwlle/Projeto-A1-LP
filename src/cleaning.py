@@ -7,13 +7,26 @@ Módulo de limpeza dos datasets
 import pandas as pd
 import os
 
-df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
-df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
-df_aid_received_original = pd.read_csv("../data/aid_received_per_person_current_us.csv")
-df_gdp_total_original = pd.read_csv("../data/total_gdp_us_inflation_adjusted.csv")
-df_military_original = pd.read_csv("../data/military_expenditure_percent_of_gdp.csv")
-df_co2_pcap_original = pd.read_csv("../data/co2_pcap_cons.csv")
-df_arms_exports_original = pd.read_csv("../data/arms_exports_us_inflation_adjusted.csv")
+# Obter o diretório base do projeto
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Caminhos dos arquivos de dados
+hapiscore_path = os.path.join(BASE_DIR, 'data', 'hapiscore_whr_original.csv')
+democracy_path = os.path.join(BASE_DIR, 'data', 'demox_eiu.csv')
+aid_received_path = os.path.join(BASE_DIR, 'data', 'aid_received_per_person_current_us.csv')
+gdp_total_path = os.path.join(BASE_DIR, 'data', 'total_gdp_us_inflation_adjusted.csv')
+military_path = os.path.join(BASE_DIR, 'data', 'military_expenditure_percent_of_gdp.csv')
+co2_pcap_path = os.path.join(BASE_DIR, 'data', 'co2_pcap_cons.csv')
+arms_exports_path = os.path.join(BASE_DIR, 'data', 'arms_exports_us_inflation_adjusted.csv')
+
+# Carregar os arquivos CSV
+df_hapiscore_original = pd.read_csv(hapiscore_path)
+df_democracy_original = pd.read_csv(democracy_path)
+df_aid_received_original = pd.read_csv(aid_received_path)
+df_gdp_total_original = pd.read_csv(gdp_total_path)
+df_military_original = pd.read_csv(military_path)
+df_co2_pcap_original = pd.read_csv(co2_pcap_path)
+df_arms_exports_original = pd.read_csv(arms_exports_path)
 
 df_democracy = df_democracy_original.copy()
 df_hapiscore = df_hapiscore_original.copy()
