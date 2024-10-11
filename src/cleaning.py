@@ -174,6 +174,9 @@ paises_comuns_hap_dem = set(df_democracy["country"]).intersection(set(df_hapisco
 paises_comuns_mil_exp_gdp = set(df_mil_exp["country"]).intersection(set(df_gdp_total["country"]))
 paises_comuns_co2_mil_exp = set(df_mil_exp["country"]).intersection(set(df_co2_pcap["country"]))
 
+# Removendo o ano 2023 em df_gdp_total
+df_gdp_total = df_gdp_total.drop(columns=["2023"])
+
 # Criando datasets limpos com os valores extraídos
 df_democracy_limpo = df_democracy[df_democracy["country"].isin(paises_comuns_hap_dem)].copy()
 df_hapiscore_limpo = df_hapiscore[df_hapiscore["country"].isin(paises_comuns_hap_dem)].copy()
