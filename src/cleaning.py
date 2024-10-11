@@ -1,11 +1,16 @@
 """ 
 Módulo de limpeza dos datasets
+
+Este script faz a limpeza e o pré-processamento de vários datasets,
+como os de índices de felicidade, democracia, PIB, gasto militar e emissões de CO2 per capita.
+Ele renomeia países, remove anos irrelevantes e filtra países comuns entre os datasets.
 """
 
 # TODO Fazer limpeza dos outros datasets
 
 import pandas as pd
 
+# Carregando os datasets originais
 df_hapiscore_original = pd.read_csv("../data/hapiscore_whr_original.csv")
 df_democracy_original = pd.read_csv("../data/demox_eiu.csv")
 df_aid_received_original = pd.read_csv("../data/aid_received_per_person_current_us.csv")
@@ -20,7 +25,7 @@ df_gdp_total = df_gdp_total_original.copy()
 df_mil_exp = df_military_original.copy()
 df_co2_pcap = df_co2_pcap_original.copy()
 
-# Igualando os nomes das colunas
+# Renomeando colunas
 df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 
 
@@ -186,7 +191,7 @@ def convertendo_grandezas_para_numerico(value):
 for year in range(1960, 2023):
     df_gdp_total_limpo[str(year)] = df_gdp_total_limpo[str(year)].apply(convertendo_grandezas_para_numerico)
     
-
+# Datasets limpos
 if __name__ == "__main__":
     print(df_mil_exp_limpo)
     print(df_co2_pcap_limpo)
