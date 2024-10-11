@@ -108,3 +108,5 @@ def plot_mil_exp_x_gdp_total(year):
         )
         st.plotly_chart(df_gdp_total_map, use_container_width=True)
 
+    # Retornar os gráficos para verificação nos testes
+    return scatter_plot, mil_expend_map, df_gdp_total_map

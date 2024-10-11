@@ -87,3 +87,6 @@ def plot_happiness_democracy(year):
                 autoexpand=False),
         )
         st.plotly_chart(democracy_map, use_container_width=True)
+
+    # Retornar os gráficos para verificação nos testes
+    return scatter_plot, happiness_map, democracy_map

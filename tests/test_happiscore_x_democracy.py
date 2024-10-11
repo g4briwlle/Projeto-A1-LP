@@ -19,38 +19,24 @@ class TestHappinessDemocracyVisualization(unittest.TestCase):
         cls.df_democracy_limpo = cl.df_democracy_limpo
 
     def test_scatter_plot_generation(self):
-        # Testar se o scatter plot é gerado corretamente
+        # Testar se o scatter plot é gerado corretamente chamando a função de h_x_d
         year = 2020  # Por exemplo, o ano 2020
-        df_hapiscore_viz = self.df_hapiscore_limpo[["country", str(year)]]
-        df_democracy_viz = self.df_democracy_limpo[["country", str(year)]]
-
-        scatter_plot = px.scatter(x=df_hapiscore_viz[str(year)],
-                                  y=df_democracy_viz[str(year)],
-                                  labels={"x": "Índice de Felicidade", "y": "Índice de Democracia"},
-                                  hover_name=df_hapiscore_viz["country"],
-                                  trendline="ols",
-                                  title=f"Felicidade vs Democracia ({year})")
+        scatter_plot, _, _ = h_x_d.plot_happiness_democracy(year)  # Chamando a função diretamente do módulo
 
         # Verificar se o objeto do gráfico foi gerado corretamente
         self.assertIsNotNone(scatter_plot)
         self.assertEqual(scatter_plot.layout.title.text, f"Felicidade vs Democracia ({year})")
 
     def test_choropleth_map_generation(self):
-        # Testar se o mapa coroplético é gerado corretamente
-        year = 2020  # Por exemplo, o ano 2020
-        df_hapiscore_viz = self.df_hapiscore_limpo[["country", str(year)]]
+        # Testar se o mapa coroplético (choropleth) é gerado corretamente chamando a função de h_x_d
+        year = 2020
+        _, happiness_map, democracy_map = h_x_d.plot_happiness_democracy(year)  # Chamando a função diretamente do módulo
 
-        happiness_map = px.choropleth(df_hapiscore_viz,
-                                      locations="country",
-                                      locationmode="country names",
-                                      color=str(year),
-                                      hover_name="country",
-                                      color_continuous_scale=px.colors.sequential.Plasma,
-                                      title="Dados do World Happiness Report")
-
-        # Verificar se o objeto do gráfico foi gerado corretamente
+        # Verificar se os objetos do gráfico foram gerados corretamente
         self.assertIsNotNone(happiness_map)
+        self.assertIsNotNone(democracy_map)
         self.assertEqual(happiness_map.layout.title.text, "Dados do World Happiness Report")
+        self.assertEqual(democracy_map.layout.title.text, "Dados do Economist Inteligence Unit")
 
 if __name__ == '__main__':
     unittest.main()
