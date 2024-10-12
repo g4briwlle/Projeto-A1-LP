@@ -1,9 +1,14 @@
 """
-Módulo de visualização Happiscore x Democracy
+Módulo de visualização: Felicidade vs Democracia.
+
+Este módulo utiliza Streamlit e Plotly para criar visualizações interativas
+que analisam a relação entre o índice de felicidade e o índice de democracia
+para diferentes países ao longo dos anos.
+
 """
 import streamlit as st
 import plotly.express as px
-import cleaning as cl
+import cleaning as cl # módulo de limpeza de dados
 
 # Preenchendo valores vazios com os anteriores
 cl.df_hapiscore_limpo.bfill(inplace=True)
@@ -12,13 +17,20 @@ cl.df_democracy_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_happiness_democracy(year):
+     """
+    Plota gráficos de correlação entre o índice de felicidade e o índice de democracia.
+    Parâmetros:
+        year (int): O ano para o qual os dados devem ser visualizados.
+    Retorna:
+        tuple: Contém os gráficos de dispersão e os mapas coropléticos gerados.
+    """
     # Dados para o ano selecionado
     df_hapiscore_viz = cl.df_hapiscore_limpo[["country", str(year)]]
     df_democracy_viz = cl.df_democracy_limpo[["country", str(year)]]
 
     st.title(f"Análise de Correlação entre Felicidade e Democracia ({year})")
     
-    # Gráfico de correlação
+    # Gráfico de correlação entre o índice de felicidade e o índice de democracia
     scatter_plot = px.scatter(
         x=df_hapiscore_viz[str(year)],
         y=df_democracy_viz[str(year)],
