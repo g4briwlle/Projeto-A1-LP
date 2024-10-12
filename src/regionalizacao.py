@@ -77,27 +77,36 @@ def plot_regionalizacao_mapas(year):
     mil_exp_norte, mil_exp_sul = st.columns(2)
 
     with mil_exp_norte:
-        st.plotly_chart(plot_regionalizacao(df_mil_exp_viz, year, "Dados do Stockholm International Peace Research Institute (SIPRI)", "Norte"), use_container_width=True)
+        mapa_mil_exp_norte = plot_regionalizacao(df_mil_exp_viz, year, "Dados do SIPRI", "Norte")
+        st.plotly_chart(mapa_mil_exp_norte, use_container_width=True)
 
     with mil_exp_sul:
-        st.plotly_chart(plot_regionalizacao(df_mil_exp_viz, year, "Dados do Stockholm International Peace Research Institute (SIPRI)", "Sul"), use_container_width=True)
-
+        mapa_mil_exp_sul = plot_regionalizacao(df_mil_exp_viz, year, "Dados do SIPRI", "Sul")
+        st.plotly_chart(mapa_mil_exp_sul, use_container_width=True)
 
     st.subheader("PIB (Dólares)")
 
     gdp_total_norte, gdp_total_sul = st.columns(2)
-    with gdp_total_norte:
-        st.plotly_chart(plot_regionalizacao(df_gdp_total_viz, year, "Dados do World Bank", "Norte"), use_container_width=True)
-    with gdp_total_sul:
-        st.plotly_chart(plot_regionalizacao(df_gdp_total_viz, year, "Dados do World Bank", "Sul"), use_container_width=True)
 
+    with gdp_total_norte:
+        mapa_gdp_norte = plot_regionalizacao(df_gdp_total_viz, year, "Dados do World Bank", "Norte")
+        st.plotly_chart(mapa_gdp_norte, use_container_width=True)
+
+    with gdp_total_sul:
+        mapa_gdp_sul = plot_regionalizacao(df_gdp_total_viz, year, "Dados do World Bank", "Sul")
+        st.plotly_chart(mapa_gdp_sul, use_container_width=True)
 
     st.subheader("Emissão de CO2 per Capita")
 
     co2_pcap_norte, co2_pcap_sul = st.columns(2)
 
     with co2_pcap_norte:
-        st.plotly_chart(plot_regionalizacao(df_co2_pcap_viz, year, "Dados do GM CO2 e CDIAC", "Norte"), use_container_width=True)
-    with co2_pcap_sul:
-        st.plotly_chart(plot_regionalizacao(df_co2_pcap_viz, year, "Dados do GM CO2 e CDIAC", "Sul"), use_container_width=True)
+        mapa_co2_norte = plot_regionalizacao(df_co2_pcap_viz, year, "Dados do GM CO2 e CDIAC", "Norte")
+        st.plotly_chart(mapa_co2_norte, use_container_width=True)
 
+    with co2_pcap_sul:
+        mapa_co2_sul = plot_regionalizacao(df_co2_pcap_viz, year, "Dados do GM CO2 e CDIAC", "Sul")
+        st.plotly_chart(mapa_co2_sul, use_container_width=True)
+        
+    # Retornando todos os gráficos para verificar nos testes
+    return mapa_mil_exp_norte, mapa_mil_exp_sul, mapa_gdp_norte, mapa_gdp_sul, mapa_co2_norte, mapa_co2_sul

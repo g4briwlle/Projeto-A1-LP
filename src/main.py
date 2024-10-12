@@ -1,5 +1,3 @@
-"""
-"""
 from happiscore_x_democracy import plot_happiness_democracy
 from mil_expend_x_gdp import plot_mil_exp_x_gdp_total
 from co2_pcap_x_mil_exp import plot_co2_pcap_x_mil_exp
