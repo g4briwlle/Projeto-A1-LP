@@ -1,5 +1,9 @@
 """
-Módulo de visualização Military Expenditure x GDP per Capita
+Módulo de visualização para analisar a relação entre Despesas Militares e PIB per Capita.
+
+Este módulo utiliza Streamlit e Plotly para criar gráficos interativos
+que mostram a correlação entre despesas militares e PIB per capita ao longo de um ano selecionado.
+
 """
 import streamlit as st
 import plotly.express as px
@@ -12,6 +16,13 @@ cl.df_mil_exp_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_mil_exp_x_gdp_total(year):
+    """
+    Plota a análise de correlação entre PIB per Capita e Despesas Militares para um ano selecionado.
+    Parâmetros:
+    year (int): O ano para o qual as análises e gráficos serão gerados.
+    Retorna:
+    tuple: Gráficos de dispersão e coropléticos para visualização.
+    """
 
     # Dados para o ano selecionado
     df_gdp_total_viz = cl.df_gdp_total_limpo[["country", str(year)]]
@@ -40,9 +51,10 @@ def plot_mil_exp_x_gdp_total(year):
 
     st.plotly_chart(scatter_plot, use_container_width=True)
 
-    # Mapas coropléticos
+    # Mapas coropléticos para Despesas Militares e PIB
     mil_exp_column, gdp_column = st.columns(2)
 
+    # Mapa de Despesas Militares
     with mil_exp_column:
         st.subheader(f"Despesas Militares (% do PIB) ({year})")
         mil_expend_map = px.choropleth(
@@ -75,6 +87,7 @@ def plot_mil_exp_x_gdp_total(year):
 
         st.plotly_chart(mil_expend_map, use_container_width=True)
 
+    # Mapa de PIB
     with gdp_column:
         st.subheader(f"PIB (Dólares) ({year})")
         df_gdp_total_map = px.choropleth(
