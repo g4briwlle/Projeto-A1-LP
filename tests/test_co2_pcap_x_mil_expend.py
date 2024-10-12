@@ -25,7 +25,7 @@ class TestCo2PcapXMilExpVisualization(unittest.TestCase):
 
         # Verificar se o objeto do gráfico foi gerado corretamente
         self.assertIsNotNone(scatter_plot)
-        self.assertEqual(scatter_plot.layout.title.text, f" CO2 per Capita vs Despesas Militares (% do PIB) ({year})")
+        self.assertEqual(scatter_plot.layout.title.text, f"CO2 per Capita (Toneladas) vs Despesas Militares (% do PIB) ({year})")
 
     def test_choropleth_map_generation(self):
         # Testar se os mapas coropléticos são gerados corretamente chamando a função de c_x_m

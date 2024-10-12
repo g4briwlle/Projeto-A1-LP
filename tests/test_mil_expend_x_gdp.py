@@ -36,7 +36,7 @@ class TestMilitaryExpenditureXGdpVisualization(unittest.TestCase):
         # Verificar se os objetos do gráfico foram gerados corretamente
         self.assertIsNotNone(mil_expend_map)
         self.assertIsNotNone(df_gdp_total_map)
-        self.assertEqual(mil_expend_map.layout.title.text, "Military Expenditure Data")
+        self.assertEqual(mil_expend_map.layout.title.text, "Dados do Stockholm International Peace Research Institute (SIPRI)")
         self.assertEqual(df_gdp_total_map.layout.title.text, "Dados do World Bank")
 
 if __name__ == '__main__':

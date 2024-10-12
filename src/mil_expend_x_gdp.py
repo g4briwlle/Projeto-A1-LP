@@ -17,16 +17,6 @@ def plot_mil_exp_x_gdp_total(year):
     df_gdp_total_viz = cl.df_gdp_total_limpo[["country", str(year)]]
     df_mil_exp_viz = cl.df_mil_exp_limpo[["country", str(year)]]
     
-    # Removendo valores não numéricos ou nulos
-    df_mil_exp_viz = df_mil_exp_viz[pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce").notnull()]
-    
-    # Transformando a série em numérica
-    df_mil_exp_viz[str(year)] = pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce")
-    
-    # Verificando se o número de países é igual após a remoção de valores não numéricos/nulos
-    df_gdp_total_viz = df_gdp_total_viz[df_gdp_total_viz["country"].isin(df_mil_exp_viz["country"])]
-    df_mil_exp_viz = df_mil_exp_viz[df_mil_exp_viz["country"].isin(df_gdp_total_viz["country"])]
-
     # Adicionando título da página
     st.title(f"Análise de Correlação entre PIB per Capita e Despesas Militares ({year})")
 

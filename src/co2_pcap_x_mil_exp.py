@@ -18,16 +18,6 @@ def plot_co2_pcap_x_mil_exp(year):
     df_co2_pcap_viz = cl.df_co2_pcap_limpo[["country", str(year)]]
     df_mil_exp_viz = cl.df_mil_exp_limpo[["country", str(year)]]
 
-    # Removendo valores não numéricos ou nulos
-    df_mil_exp_viz = df_mil_exp_viz[pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce").notnull()]
-    
-    # Transformando a série em numérica
-    df_mil_exp_viz[str(year)] = pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce")
-
-    # Verificando se o número de países é igual após a remoção de valores não numéricos/nulos
-    df_co2_pcap_viz = df_co2_pcap_viz[df_co2_pcap_viz["country"].isin(df_mil_exp_viz["country"])]
-    df_mil_exp_viz = df_mil_exp_viz[df_mil_exp_viz["country"].isin(df_co2_pcap_viz["country"])]
-    
     st.title(f"Análise de Correlação entre emissões de CO2 com despesas militares ({year})")
     
     # Gráfico de correlação
@@ -52,7 +42,7 @@ def plot_co2_pcap_x_mil_exp(year):
     co2_pcap_column, mil_exp_column = st.columns(2)
 
     with co2_pcap_column:
-        st.subheader(f"Emissão de CO2 per Capita (Toneladas) ({year})")
+        st.subheader(f"Emissões de CO2 per Capita (Toneladas) ({year})")
         co2_pcap_map = px.choropleth(
             df_co2_pcap_viz,
             locations="country",
