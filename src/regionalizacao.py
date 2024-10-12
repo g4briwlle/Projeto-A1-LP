@@ -24,7 +24,7 @@ paises_sul = ["Afghanistan", "Algeria", "Angola", "Argentina", "Bahrain", "Bangl
 
 # Função para filtrar os dados por região
 def filtrar_por_região(df, year, region):
-     """
+    """
     Filtra o DataFrame com base na região (Norte ou Sul) e no ano selecionado.
 
     Parâmetros:
@@ -42,7 +42,7 @@ def filtrar_por_região(df, year, region):
 
 # Função para gerar mapas coropléticos
 def plot_regionalizacao(df, year, nome_dataset, regiao):
-      """
+    """
     Gera um mapa coroplético para a região e dataset especificados.
 
     Parâmetros:
@@ -83,7 +83,7 @@ def plot_regionalizacao(df, year, nome_dataset, regiao):
 
 
 def plot_regionalizacao_mapas(year):
-     """
+    """
     Gera e exibe mapas coropléticos para os datasets de PIB, Despesas Militares e CO2 per Capita
     separados por região (Norte e Sul) para o ano selecionado.
 

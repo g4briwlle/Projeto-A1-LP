@@ -20,7 +20,7 @@ cl.df_mil_exp_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_co2_pcap_x_mil_exp(year):
-     """
+    """
     Plota gráficos de correlação entre as emissões de CO2 per capita e as despesas militares.
     Parâmetros:
         year (int): O ano para o qual os dados devem ser visualizados.

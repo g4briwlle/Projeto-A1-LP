@@ -17,7 +17,7 @@ cl.df_democracy_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_happiness_democracy(year):
-     """
+    """
     Plota gráficos de correlação entre o índice de felicidade e o índice de democracia.
     Parâmetros:
         year (int): O ano para o qual os dados devem ser visualizados.
