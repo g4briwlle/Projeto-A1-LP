@@ -23,7 +23,7 @@ Utilizando bases de dados com índices sociais, econômicos e políticos de paí
 
 # Como rodar o código:
 1. Para obter as visualizações:
-- Digitar "pip install streamlit" e "pip install plotly" no terminal
+- Digitar "pip install streamlit", "pip install statsmodels" e "pip install plotly" no terminal
 - Navegar até a pasta 'src' e digitar 'streamlit run main.py' no terminal. A aba aberta no navegador contém todas as visualizações, basta selecionar a desejada.
 2. Para rodar os unittests:
 - Navegar até a pasta raiz do repositório e digitar: 'python -m unittest tests.test_cleaning' no terminal para rodar o teste do módulo cleaning. Para os outros módulos, basta alterar o nome do arquivo 'test_cleaning' para o desejado.
