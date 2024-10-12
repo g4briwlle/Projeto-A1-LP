@@ -1,7 +1,7 @@
 """ 
 Módulo de limpeza e preparação dos datasets.
 
-Este módulo realiza a carga, limpeza e preparação de cinco datasets:
+Este módulo faz a limpeza e preparação dos seguintes datasets:
 - Felicidade (Happiness Score)
 - Democracia (Democracy Index)
 - PIB Total (GDP total ajustado pela inflação)
@@ -13,7 +13,7 @@ Este módulo realiza a carga, limpeza e preparação de cinco datasets:
 import pandas as pd
 import os
 
-# Obter o diretório base do projeto
+# Obtendo o diretório base do projeto
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # Caminhos dos arquivos de dados
@@ -23,7 +23,7 @@ gdp_total_path = os.path.join(BASE_DIR, 'data', 'total_gdp_us_inflation_adjusted
 military_path = os.path.join(BASE_DIR, 'data', 'military_expenditure_percent_of_gdp.csv')
 co2_pcap_path = os.path.join(BASE_DIR, 'data', 'co2_pcap_cons.csv')
 
-# Carregar os arquivos CSV
+# Carregando os arquivos CSV
 df_hapiscore_original = pd.read_csv(hapiscore_path)
 df_democracy_original = pd.read_csv(democracy_path)
 df_gdp_total_original = pd.read_csv(gdp_total_path)
