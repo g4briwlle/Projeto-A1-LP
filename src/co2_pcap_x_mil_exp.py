@@ -14,20 +14,12 @@ cl.df_mil_exp_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_co2_pcap_x_mil_exp(year):
+
     # Dados para o ano selecionado
     df_co2_pcap_viz = cl.df_co2_pcap_limpo[["country", str(year)]]
     df_mil_exp_viz = cl.df_mil_exp_limpo[["country", str(year)]]
 
-    # Removendo valores não numéricos ou nulos
-    df_mil_exp_viz = df_mil_exp_viz[pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce").notnull()]
-    
-    # Transformando a série em numérica
-    df_mil_exp_viz[str(year)] = pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce")
-
-    # Verificando se o número de países é igual após a remoção de valores não numéricos/nulos
-    df_co2_pcap_viz = df_co2_pcap_viz[df_co2_pcap_viz["country"].isin(df_mil_exp_viz["country"])]
-    df_mil_exp_viz = df_mil_exp_viz[df_mil_exp_viz["country"].isin(df_co2_pcap_viz["country"])]
-    
+    # Adicionando título da página
     st.title(f"Análise de Correlação entre emissões de CO2 com despesas militares ({year})")
     
     # Gráfico de correlação

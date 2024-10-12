@@ -25,10 +25,7 @@ df_democracy = df_democracy.rename(columns={"Economy Name": "country"})
 df_hapiscore = df_hapiscore.drop(columns=["2005", "2021", "2022"])
 df_gpd_total = df_gdp_total.drop(columns=["2023"])
 
-anos_removidos = []
-for ano in range(1800, 1960):
-    anos_removidos.append(str(ano))
-df_co2_pcap = df_co2_pcap.drop(columns=anos_removidos)
+df_co2_pcap = df_co2_pcap.drop(columns=(str(ano) for ano in range(1800,1960)))
 
 
 # Dicionários dos países que serão alterados nos datasets
@@ -182,6 +179,13 @@ def convertendo_grandezas_para_numerico(value):
 for year in range(1960, 2023):
     df_gdp_total_limpo[str(year)] = df_gdp_total_limpo[str(year)].apply(convertendo_grandezas_para_numerico)
     
+# Transformando todas as colunas exceto a primeira para numérico
+df_democracy_limpo.iloc[:, 1:] = df_democracy_limpo.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+df_hapiscore_limpo.iloc[:, 1:] = df_hapiscore_limpo.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+df_mil_exp_limpo.iloc[:, 1:] = df_mil_exp_limpo.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+df_gdp_total_limpo.iloc[:, 1:] = df_gdp_total_limpo.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+df_co2_pcap_limpo.iloc[:, 1:] = df_co2_pcap_limpo.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+
 
 if __name__ == "__main__":
     print(df_mil_exp_limpo)

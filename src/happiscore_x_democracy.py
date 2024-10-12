@@ -12,10 +12,12 @@ cl.df_democracy_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_happiness_democracy(year):
+
     # Dados para o ano selecionado
     df_hapiscore_viz = cl.df_hapiscore_limpo[["country", str(year)]]
     df_democracy_viz = cl.df_democracy_limpo[["country", str(year)]]
-
+    
+    # Adicionando título da página
     st.title(f"Análise de Correlação entre Felicidade e Democracia ({year})")
     
     # Gráfico de correlação

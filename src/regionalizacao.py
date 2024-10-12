@@ -62,12 +62,6 @@ def plot_regionalizacao_mapas(year):
     df_co2_pcap_viz = cl.df_co2_pcap_limpo[["country", str(year)]]
     df_mil_exp_viz = cl.df_mil_exp_limpo[["country", str(year)]]
 
-    # Removendo valores não numéricos ou nulos
-    df_mil_exp_viz = df_mil_exp_viz[pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce").notnull()]
-    
-    # Transformando a série em numérica
-    df_mil_exp_viz[str(year)] = pd.to_numeric(df_mil_exp_viz[str(year)], errors="coerce")
-
     # Adicionando título da página
     st.title(f"Datasets separados por Norte e Sul econômicos ({year})")
 
