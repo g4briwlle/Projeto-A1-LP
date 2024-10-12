@@ -1,6 +1,13 @@
 """ 
-Módulo de limpeza dos datasets
-por favor funciona
+Módulo de limpeza e preparação dos datasets.
+
+Este módulo realiza a carga, limpeza e preparação de cinco datasets:
+- Felicidade (Happiness Score)
+- Democracia (Democracy Index)
+- PIB Total (GDP total ajustado pela inflação)
+- Despesas Militares (Military Expenditure)
+- Emissão de CO2 per capita (CO2 Emissions)
+
 """
 
 import pandas as pd
@@ -176,6 +183,14 @@ df_co2_pcap_limpo = df_co2_pcap[df_co2_pcap["country"].isin(paises_comuns_co2_mi
 
 # Removendo as medidas de grandeza e multiplicando o número pelo fator de 10 adequado
 def convertendo_grandezas_para_numerico(value):
+    """
+    Converte valores com sufixos de grandeza (k, M, B) para valores numéricos.
+    Parâmetros:
+        value (str ou numérico): O valor a ser convertido.
+    Retorna:
+        float ou NaN: O valor convertido para numérico, ou NaN se não for possível converter.
+        
+    """
     if isinstance(value, str) and "k" in value:
         return float(value.replace("k", "")) * 1000
     elif isinstance(value, str) and "M" in value:
