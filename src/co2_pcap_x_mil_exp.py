@@ -1,6 +1,12 @@
 """
-Módulo de visualização Co2 percapita x Military Expenditure
+Módulo de visualização: CO2 per capita vs Despesas Militares.
+
+Este módulo utiliza Streamlit e Plotly para criar visualizações interativas
+que analisam a relação entre as emissões de CO2 per capita e as despesas
+militares como porcentagem do PIB para diferentes países ao longo dos anos.
+
 """
+
 import streamlit as st
 import plotly.express as px
 import cleaning as cl
@@ -14,13 +20,20 @@ cl.df_mil_exp_limpo.bfill(inplace=True)
 
 # Função para plotar os gráficos
 def plot_co2_pcap_x_mil_exp(year):
+     """
+    Plota gráficos de correlação entre as emissões de CO2 per capita e as despesas militares.
+    Parâmetros:
+        year (int): O ano para o qual os dados devem ser visualizados.
+    Retorna:
+        tuple: Contém os gráficos de dispersão e os mapas coropléticos gerados.
+    """
     # Dados para o ano selecionado
     df_co2_pcap_viz = cl.df_co2_pcap_limpo[["country", str(year)]]
     df_mil_exp_viz = cl.df_mil_exp_limpo[["country", str(year)]]
 
     st.title(f"Análise de Correlação entre emissões de CO2 com despesas militares ({year})")
     
-    # Gráfico de correlação
+    # Gráfico de correlação entre CO2 per capita e despesas militares
     scatter_plot = px.scatter(
         x=df_mil_exp_viz[str(year)],
         y=df_co2_pcap_viz[str(year)],
@@ -38,7 +51,7 @@ def plot_co2_pcap_x_mil_exp(year):
     )
     st.plotly_chart(scatter_plot, use_container_width=True)
 
-    # Mapas coropléticos
+    # Criando colunas para mapas coropléticos
     co2_pcap_column, mil_exp_column = st.columns(2)
 
     with co2_pcap_column:
